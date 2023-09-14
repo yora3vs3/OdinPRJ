@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Conditionals: Task 2</title>
+    <style>
+        p {
+            color: purple;
+            margin: 0.5em 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+    <section class="preview"></section>
+
+    <section class="currency-info">
+        <h1>Currency Information</h1>
+        <div id="currency-display"></div>
+        <div>
+            <label for="code">Currency Code: </label>
+            <input type="text" id="code">
+            <label for="name">Currency Name: </label>
+            <input type="text" id="name">
+            <button id="add-currency">Add Currency</button>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript code for the Currency class
+        class Currency {
+            constructor(code, name) {
+                if (typeof code !== 'string' || typeof name !== 'string') throw new Error();
+                this.code = code;
+                this.name = name;
+            }
+
+            get code() {
+                return this._code;
+            }
+
+            set code(val) {
+                this._code = val;
+            }
+
+            get name() {
+                return this._name;
+            }
+
+            set name(val) {
+                this._name = val;
+            }
+
+            displayFullCurrency() {
+                return `${this.name} (${this.code})`;
+            }
+        }
+
+        // Example usage of the Currency class
+        const currencies = []; // Array to store currency objects
+
+        // Display currency information in the HTML section
+        const currencyDisplay = document.getElementById('currency-display');
+
+        // Function to update the displayed currency information
+        function updateCurrencyDisplay() {
+            currencyDisplay.innerHTML = ''; // Clear existing content
+            currencies.forEach(currency => {
+                currencyDisplay.innerHTML += `<p>${currency.displayFullCurrency()}</p>`;
+            });
+        }
+
+        // Add event listener to the "Add Currency" button
+        const addCurrencyButton = document.getElementById('add-currency');
+        addCurrencyButton.addEventListener('click', () => {
+            const codeInput = document.getElementById('code');
+            const nameInput = document.getElementById('name');
+            const code = codeInput.value;
+            const name = nameInput.value;
+            if (code && name) {
+                const currency = new Currency(code, name);
+                currencies.push(currency);
+                updateCurrencyDisplay();
+                // Clear input fields after adding currency
+                codeInput.value = '';
+                nameInput.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
